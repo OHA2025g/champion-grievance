@@ -1,0 +1,42 @@
+{
+  "summary": "Iteration 2 targeted regression + previously untested flows. Backend: new pytest file test_iteration2_regression.py (13 tests, 13/13 pass after fixing the test's own missing approval_reference field). Frontend (Playwright): role switch R05->R04 (sidebar changes, /api/auth/me=R04, survives reload, separate-context login OK), SLA board testids unique (18/18) and +4h works, mobile 390px sheet places role select and DEV switcher in a pinned footer below the nav list with no overlap, job 'Reported details' shows explanatory sentence, CE-054 allocate via lookup option + propose appointment via UI works, CE-116 own-row Roles/Disable buttons disabled (other admin's enabled), CE-120/121/122 show current JSON + version history, Propose change opens prefilled create dialog and creates config_change, full CE-153 two-admin flow in UI (check_scope->run_tests->request_release, owner sees no approve button, admin2 sees APR on R18 dashboard inbox, approves, owner releases -> CE-120 version 2 with new holiday, rollback -> version 3 with original value), CE-087/088/090 settlement through UI to reconciled (simulated provider; check_status needed to move pending_confirmation->executed), customer_confirm (API) and customer_reject (UI) and request_review/appeal + duplicate-appeal 409 guard + reopen of closed case. All 21 roles smoke via dev-login with 3 screens each (R06 via mobile shell bottom nav): zero error boundaries, zero page errors. All requested items PASS; only minor/UX findings.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "POST /api/records/{cfg}/actions/rollback (engine.a_cfg_rollback)", "issue": "Rollback restores previous_version without checking that the config's current version still equals this record's released_version. Rolling back an older config change after a newer change to the same key was released silently reverts the newer release. Should 409 (stale_rollback) or require a new change."},
+      {"endpoint": "config_release approval record", "issue": "Approval stores amount 0 and no snapshot of change_summary / proposed_value / current-vs-proposed diff; second admin approves without seeing what is being released on the approval page (only via parent link)."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "Case detail (customer, closed case under appeal)", "issue": "'Submit appeal' (action-btn-request_review) still shown while an appeal is already open; backend correctly rejects with 409 'An appeal is already open for this case.' - hide the action when an open appeal child exists.", "selector": "[data-testid='action-btn-request_review']", "priority": "LOW"}
+    ],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Approval detail (config_release)", "issues": ["Record context shows 'Amount INR 0' which is meaningless for config releases", "No summary of proposed change for approver"]},
+      {"screen": "CE-122 Customer communication templates", "issues": ["No saved override -> shows string 'Built-in defaults (no override saved)' and Propose change prefills '{}' instead of the built-in template set, so admin cannot edit from the real baseline"]},
+      {"screen": "CE-120/121/122 Propose change", "issues": ["After create the user stays on the config screen with a toast; consider navigating to the new CFG record (CE-153) to continue the workflow"]}
+    ]
+  },
+  "test_report_links": ["/app/backend/tests/test_iteration2_regression.py", "/app/test_reports/pytest/pytest_iter2.xml"],
+  "action_items": [
+    "Guard config rollback against stale versions (compare current config version with record.released_version)",
+    "Show change summary / proposed JSON (diff vs current) on config_release approval detail and hide the Amount field for non-monetary approvals",
+    "Hide request_review action in UI when an open appeal exists",
+    "CE-122: expose built-in template defaults as the baseline for Propose change"
+  ],
+  "critical_code_review_comments": [
+    "engine.py is 1626 lines and workflows.py 723 lines - split engine hooks by domain (case/job/settlement/config) for maintainability",
+    "a_cfg_rollback: no optimistic check on current version (see backend minor issue)",
+    "Login in a new browser context restores the user's last persisted active_role (R04) rather than primary role - acceptable, but switch_role still writes active_role to the user doc, so the DB value and per-session JWT role can diverge across devices; document intended behaviour",
+    "Idempotency keys are global (not namespaced by user); collisions across users return 409 idempotency_mismatch - fine functionally, but consider TTL index on db.idempotency"
+  ],
+  "updated_files": ["/app/backend/tests/test_iteration2_regression.py"],
+  "success_rate": {"backend": "100% (13/13)", "frontend": "100% of requested flows; 1 low-priority UI bug + design notes"},
+  "test_credentials": "Used /app/memory/test_credentials.md: owner singh.aghoreshwar@gmail.com / ChampionAdmin#2026, admin2.ops@demo.champion.test, rohan.mehta, aarav.sharma, deepak.menon (Champion@2026), dev-login R01-R21. No passwords changed; nothing disabled.",
+  "seed_data_creation": "Created/changed during testing: CFG-2026-00002 (reopen_window_days=45, API; released then rolled back) and CFG-2026-00003 (business_calendar + 2026-12-31 holiday, UI; released v2 then rolled back v3 - value restored) with their config_release approvals (APR-2026-00005 for CFG-00003); JOB-2026-00010 created under CE-2026-00012 (allocated Rahul Verma, appointment proposed 27 Oct 10:00-13:00); STL-2026-00001 (API) and STL-2026-00002 (UI) reconciled; CE-2026-00006 customer-confirmed -> closed + appeal APL-2026-00002; CE-2026-00007 reopened; CE-2026-00005 marked resolved by R05 then customer_reject -> in_progress; TEST_ add_update on an aarav in_progress case (idempotency test); one SLA +4h aging on CE-2026-00008 assignment; rohan.mehta active_role restored to R05.",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Run: cd /app/backend && REACT_APP_BACKEND_URL=<url> python -m pytest tests/test_iteration2_regression.py (pytest.ini uses xdist loadscope). Note this file consumes seed state: it expects CE-2026-00006 resolved and CE-2026-00007 closed and a pending_validation settlement - after this run those are consumed, so reseed or adapt before rerunning TestCustomer/TestSettlement. Technician R06 uses mobile shell (mobile-shell/mnav-*), no sidebar. Lookup option testids: action-{key}-{field}-option-{i}. Approve requires decision_note + evidence_checked=Yes; PATCH /api/admin/users requires approval_reference.",
+  "rca of the issue": "No blocking bugs. Stale-rollback risk: a_cfg_rollback restores rec.previous_version unconditionally; reproduce by releasing CFG-A then CFG-B on same key, then rollback CFG-A -> CFG-B's value is lost. Mitigation: in rollback pre-hook, fail 409 if db.config[key].version != rec.released_version."
+}

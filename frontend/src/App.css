@@ -1,0 +1,10 @@
+.App {
+  min-height: 100vh;
+}
+.ce-mobile .ce-two, .ce-mobile .ce-two.equal, .ce-mobile .ce-split {
+  grid-template-columns: minmax(0, 1fr);
+}
+.ce-sheet .ce-sidebar {
+  position: relative;
+  height: 100%;
+}

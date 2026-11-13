@@ -1,0 +1,43 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: champion-service-desk-mongo
+    restart: unless-stopped
+    volumes:
+      - champion_mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_BACKEND_URL: ${REACT_APP_BACKEND_URL:-http://localhost:8310}
+    image: champion-service-desk:local
+    container_name: champion-service-desk
+    restart: unless-stopped
+    ports:
+      - "8310:8080"
+    environment:
+      MONGO_URL: mongodb://mongo:27017
+      DB_NAME: champion_service_desk
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8310}
+      JWT_SECRET: ${JWT_SECRET:-champion-dev-jwt-secret-change-me}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-singh.aghoreshwar@gmail.com}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-ChampionAdmin#2026}
+      DEV_MODE: ${DEV_MODE:-true}
+      EMAIL_FROM_NAME: ${EMAIL_FROM_NAME:-Champion Service Desk}
+      MISTRAL_MODEL: ${MISTRAL_MODEL:-mistral-small-latest}
+      MISTRAL_API_KEY: ${MISTRAL_API_KEY:-}
+      EMERGENT_EMAIL_KEY: ${EMERGENT_EMAIL_KEY:-}
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+volumes:
+  champion_mongo_data:

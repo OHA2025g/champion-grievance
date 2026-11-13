@@ -1,0 +1,264 @@
+[
+  {
+    "name": "Customer complaint",
+    "screens": [
+      "CE-005",
+      "CE-007",
+      "CE-150",
+      "CE-008",
+      "CE-010",
+      "CE-011",
+      "CE-012"
+    ]
+  },
+  {
+    "name": "Dealer assistance and claim",
+    "screens": [
+      "CE-015",
+      "CE-016",
+      "CE-018",
+      "CE-017",
+      "CE-019",
+      "CE-020"
+    ]
+  },
+  {
+    "name": "Distributor bulk grievance",
+    "screens": [
+      "CE-021",
+      "CE-022",
+      "CE-023",
+      "CE-024",
+      "CE-025",
+      "CE-026"
+    ]
+  },
+  {
+    "name": "Contact intake and safety",
+    "screens": [
+      "CE-027",
+      "CE-028",
+      "CE-031",
+      "CE-029",
+      "CE-032",
+      "CE-030",
+      "CE-033"
+    ]
+  },
+  {
+    "name": "Owned case coordination",
+    "screens": [
+      "CE-034",
+      "CE-035",
+      "CE-151",
+      "CE-036",
+      "CE-038",
+      "CE-037",
+      "CE-152",
+      "CE-040",
+      "CE-041"
+    ]
+  },
+  {
+    "name": "Technician job",
+    "screens": [
+      "CE-042",
+      "CE-043",
+      "CE-044",
+      "CE-045",
+      "CE-046",
+      "CE-047",
+      "CE-048",
+      "CE-049",
+      "CE-050",
+      "CE-051"
+    ]
+  },
+  {
+    "name": "Service centre dispatch",
+    "screens": [
+      "CE-052",
+      "CE-053",
+      "CE-054",
+      "CE-055",
+      "CE-056"
+    ]
+  },
+  {
+    "name": "Technical decision",
+    "screens": [
+      "CE-057",
+      "CE-058",
+      "CE-059",
+      "CE-060",
+      "CE-061",
+      "CE-149"
+    ]
+  },
+  {
+    "name": "Regional recovery",
+    "screens": [
+      "CE-062",
+      "CE-063",
+      "CE-064",
+      "CE-065",
+      "CE-066"
+    ]
+  },
+  {
+    "name": "National service governance",
+    "screens": [
+      "CE-067",
+      "CE-068",
+      "CE-069",
+      "CE-070"
+    ]
+  },
+  {
+    "name": "Warranty decision",
+    "screens": [
+      "CE-071",
+      "CE-072",
+      "CE-073",
+      "CE-074",
+      "CE-075",
+      "CE-161"
+    ]
+  },
+  {
+    "name": "Parts and replacement",
+    "screens": [
+      "CE-076",
+      "CE-077",
+      "CE-078",
+      "CE-079",
+      "CE-080",
+      "CE-081",
+      "CE-082",
+      "CE-083",
+      "CE-084",
+      "CE-155",
+      "CE-156"
+    ]
+  },
+  {
+    "name": "Financial remedy",
+    "screens": [
+      "CE-085",
+      "CE-086",
+      "CE-087",
+      "CE-088",
+      "CE-144",
+      "CE-089",
+      "CE-090",
+      "CE-091",
+      "CE-092"
+    ]
+  },
+  {
+    "name": "Safety and recurrence prevention",
+    "screens": [
+      "CE-093",
+      "CE-094",
+      "CE-095",
+      "CE-096",
+      "CE-097",
+      "CE-098",
+      "CE-099"
+    ]
+  },
+  {
+    "name": "Channel recovery",
+    "screens": [
+      "CE-100",
+      "CE-101",
+      "CE-102",
+      "CE-103"
+    ]
+  },
+  {
+    "name": "Appeal and reopening",
+    "screens": [
+      "CE-013",
+      "CE-014",
+      "CE-104",
+      "CE-105",
+      "CE-106",
+      "CE-107",
+      "CE-108"
+    ]
+  },
+  {
+    "name": "Executive review",
+    "screens": [
+      "CE-109",
+      "CE-110",
+      "CE-111",
+      "CE-112",
+      "CE-113",
+      "CE-114"
+    ]
+  },
+  {
+    "name": "Controlled administration",
+    "screens": [
+      "CE-115",
+      "CE-116",
+      "CE-158",
+      "CE-117",
+      "CE-118",
+      "CE-159",
+      "CE-119",
+      "CE-153",
+      "CE-120",
+      "CE-121",
+      "CE-122",
+      "CE-123",
+      "CE-124",
+      "CE-125",
+      "CE-160",
+      "CE-126"
+    ]
+  },
+  {
+    "name": "Confidential HR",
+    "screens": [
+      "CE-127",
+      "CE-128",
+      "CE-129",
+      "CE-130"
+    ]
+  },
+  {
+    "name": "Supplier resolution",
+    "screens": [
+      "CE-131",
+      "CE-132",
+      "CE-133",
+      "CE-134"
+    ]
+  },
+  {
+    "name": "Independent audit",
+    "screens": [
+      "CE-135",
+      "CE-136",
+      "CE-137",
+      "CE-138",
+      "CE-139"
+    ]
+  },
+  {
+    "name": "Exceptions and assisted work",
+    "screens": [
+      "CE-140",
+      "CE-141",
+      "CE-142",
+      "CE-143",
+      "CE-145",
+      "CE-157",
+      "CE-147",
+      "CE-148"
+    ]
+  }
+]
